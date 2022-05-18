@@ -5,6 +5,8 @@ import com.example.studentmanagement.entity.Student;
 import com.example.studentmanagement.reponsitory.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public Student add(Student data) {
+    public Student create(Student data) {
         return studentRepository.save(data);
     }
 
@@ -30,15 +32,15 @@ public class StudentServiceImpl implements StudentService {
     public Student update(Integer id, StudentDto data) {
         Optional<Student> exist = studentRepository.findById(id);
         if (!exist.isPresent()) {
-                throw new RuntimeException("No data");
+            throw new RuntimeException("No data");
         }
-        Student s = modelMapper.map(data,Student.class);
+        Student s = modelMapper.map(data, Student.class);
         s.setId(exist.get().getId());
         return studentRepository.save(s);
     }
 
     @Override
-    public String deleteStudent(Integer id) {
+    public String deleteById(Integer id) {
         Optional<Student> exit = studentRepository.findById(id);
         if (!exit.isPresent()) {
             throw new RuntimeException("khong tim thay ban ghi nao trong CSDL");
@@ -48,12 +50,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudent() {
-        return studentRepository.findAll();
+    public Page<Student> getAll(Pageable pageable) {
+        return studentRepository.findAll(pageable);
     }
 
     @Override
-    public Student getStudentById(Integer id) {
+    public Student getById(Integer id) {
         Optional<Student> exist = studentRepository.findById(id);
         if (!exist.isPresent()) {
             throw new RuntimeException("khong tim thay ban ghi trong CSDL");

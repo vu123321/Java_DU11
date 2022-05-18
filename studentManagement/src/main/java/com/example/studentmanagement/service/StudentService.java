@@ -2,17 +2,15 @@ package com.example.studentmanagement.service;
 
 import com.example.studentmanagement.dto.StudentDto;
 import com.example.studentmanagement.entity.Student;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface StudentService {
 
-    Student add(Student data);
+    Student create(Student data);
     Student update(Integer id, StudentDto studentDto);
-    String deleteStudent(Integer id);
-    List<Student> getStudent();
-    Student getStudentById(Integer id);
-
-
+    String deleteById(Integer id);
+    Page<Student> getAll(Pageable pageable);
+    Student getById(Integer id);
 
 }
