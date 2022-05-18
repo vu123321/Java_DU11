@@ -30,13 +30,13 @@ public class StudentController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<Student> create(@RequestBody Student student) {
 
         return new ResponseEntity<>(studentService.create(student), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<Student> update(@RequestBody StudentDto studentDto) {
         int id = studentDto.getId();
         return new ResponseEntity<>(studentService.update(id, studentDto), HttpStatus.OK);
@@ -72,4 +72,18 @@ public class StudentController {
 
         return new ResponseEntity<>(studentDetailDto, HttpStatus.OK);
     }
+
+
+
+    @GetMapping(value = "/get-total/{id}")
+    public ResponseEntity<Integer> getTotalStudentById(@PathVariable Integer id){
+        return new ResponseEntity<>(studentService.getCourseByStudentId(id), HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/get-course/{id}")
+    public ResponseEntity<Integer> getCourseByStudentId(@PathVariable Integer id){
+        return new ResponseEntity<>(studentService.getStudentByCourseId(id), HttpStatus.OK);
+    }
+
 }
